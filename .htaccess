@@ -1,0 +1,59 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+     
+    <IfModule mod_expires.c>
+        ExpiresActive On
+        ExpiresDefault A60
+        ExpiresByType image/bmp A3600
+        ExpiresByType image/gif A3600
+        ExpiresByType image/ief A3600
+        ExpiresByType image/jpeg A3600
+        ExpiresByType image/png A3600
+        ExpiresByType image/tiff A3600
+        ExpiresByType image/x-cmu-raster A3600
+        ExpiresByType image/x-portable-anymap A3600
+        ExpiresByType image/x-portable-bitmap A3600
+        ExpiresByType image/x-portable-graymap A3600
+        ExpiresByType image/x-portable-pixmap A3600
+        ExpiresByType image/x-rgb  A3600
+        ExpiresByType image/x-xbitmap A3600
+        ExpiresByType image/x-xpixmap A3600
+        ExpiresByType image/x-xwindowdump A3600
+        ExpiresByType audio/basic A3600
+        ExpiresByType audio/midi A3600
+        ExpiresByType audio/mpeg A3600
+        ExpiresByType audio/x-aiff A3600
+        ExpiresByType audio/x-pn-realaudio A3600
+        ExpiresByType audio/x-pn-realaudio-plugin A3600
+        ExpiresByType audio/x-realaudio A3600
+        ExpiresByType audio/x-wav A3600
+        ExpiresByType video/mpeg A3600
+        ExpiresByType video/quicktime A3600
+        ExpiresByType video/x-msvideo A3600
+        ExpiresByType video/x-sgi-movie A3600
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_URI} !(\.css|\.js|\.png|\.jpg|\.gif|robots\.txt|\.woff|\.ttf|\.otf)$ [NC]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteRule ^(css|js|images|ttf|otf|woff)/(.*)$ public/$1/$2 [L,NC]
+</IfModule>     
